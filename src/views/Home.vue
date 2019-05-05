@@ -25,7 +25,7 @@
       </card>
 
       <card title="Insurance Cost" class="insurance">
-        <text-field value="100" />
+        <text-field v-model="insurance" />
       </card>
     </div>
     <div class="report">

@@ -1,7 +1,7 @@
 <template>
   <label class="text">
     <div class="label">{{ label }}</div>
-    <input type="number" class="input" :value="value" @input="inputHandler" />
+    <input min="0" type="number" class="input" :value="value" @input="inputHandler" />
   </label>
 </template>
 
