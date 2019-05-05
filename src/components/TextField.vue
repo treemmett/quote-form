@@ -1,7 +1,7 @@
 <template>
   <label class="text">
     <div class="label">{{ label }}</div>
-    <input type="text" class="input" />
+    <input type="number" class="input" :value="value" @input="inputHandler" />
   </label>
 </template>
 
@@ -11,6 +11,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class TextField extends Vue {
   @Prop() private label!: string;
+
+  @Prop() private value!: number;
+
+  inputHandler(e: Event) {
+    this.$emit('input', (e.target as HTMLInputElement).value);
+  }
 }
 </script>
 

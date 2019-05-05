@@ -2,25 +2,25 @@
   <div class="view">
     <div class="form">
       <card title="How many employees do you need?" class="employees">
-        <text-field label="$11.00" />
-        <text-field label="$12.00" />
+        <text-field v-model="employees11" label="$11.00" />
+        <text-field v-model="employees12" label="$12.00" />
       </card>
 
       <card title="How many hours of cleaning?" class="hours">
-        <text-field />
+        <text-field v-model="hours" />
       </card>
 
       <card title="How far is the job?" class="distance">
-        <text-field label="Distance in hours" />
+        <text-field v-model="distance" label="Distance in hours" />
       </card>
 
       <card title="Cleaning Frequency" class="frequency">
         <checkbox label="Initial cleaning?" />
         <dropdown label="How often is the cleaning?">
-          <option>One Time</option>
-          <option>Weekly</option>
-          <option>Biweekly</option>
-          <option>Monthly</option>
+          <option value="once">One Time</option>
+          <option value="weekly">Weekly</option>
+          <option value="biweekly">Biweekly</option>
+          <option value="monthly">Monthly</option>
         </dropdown>
       </card>
 
@@ -29,19 +29,20 @@
       </card>
     </div>
     <div class="report">
-      <result property="Employee Time" value="5 Hours" />
-      <result property="Employee Pay" value="$24" />
+      <result property="Employee Time" :value="employeeHours" />
+      <result property="Employee Pay" :value="employeePay" />
       <br />
-      <result property="Travel Time" value="1 Hour" />
-      <result property="Travel Pay" value="$10" />
+      <result property="Travel Time" :value="travelTime" />
+      <result property="Travel Pay" :value="travelCost" />
       <br />
-      <result property="Insurance" value="$5.50" />
-      <result property="OPEX" value="$0" />
+      <result property="Insurance" :value="insuranceCost" />
+      <result property="OPEX" :value="`${opex}%`" />
+      <result property="OPEX Cost" :value="opexCost" />
       <br />
-      <result property="Profit" value="$39" />
-      <result property="Initial" value="$52" />
+      <result property="Profit" :value="profit" />
+      <result property="Initial" :value="initialCost" />
       <br />
-      <result style="font-size: 20px" property="Total" value="$226.50" />
+      <result style="font-size: 20px" property="Total" :value="total" />
     </div>
   </div>
 </template>
@@ -63,7 +64,82 @@ import TextField from '@/components/TextField.vue';
     TextField
   }
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  employees11: number = 0;
+
+  employees12: number = 0;
+
+  hours: number = 0;
+
+  distance: number = 0;
+
+  insurance: number = 110;
+
+  initial: boolean = false;
+
+  frequency: 'once' | 'weekly' | 'biweekly' | 'monthly' = 'biweekly';
+
+  get employeePay(): number {
+    return this.employees11 * this.hours * 11 + this.employees12 * this.hours * 12;
+  }
+
+  get employeeHours(): string {
+    const v = (this.employees11 + this.employees12) * this.hours;
+    return v === 1 ? `${v} Hour` : `${v} Hours`;
+  }
+
+  get travelTime(): string {
+    return this.distance === 1 ? `${this.distance} Hour` : `${this.distance} Hours`;
+  }
+
+  get travelCost(): number {
+    return this.distance * 10;
+  }
+
+  get insuranceCost(): number {
+    return this.insurance * 0.05;
+  }
+
+  get opex(): number {
+    switch (this.frequency) {
+      case 'monthly':
+        return 60;
+
+      case 'biweekly':
+        return 45;
+
+      case 'weekly':
+        return 30;
+
+      default:
+        return 0;
+    }
+  }
+
+  get opexCost(): number {
+    const perc = this.opex / 100;
+    return Math.floor((this.travelCost + this.employeePay) * perc);
+  }
+
+  get profit(): number {
+    return (this.employeePay + this.travelCost) * 0.3;
+  }
+
+  get initialCost(): number {
+    return this.initial ? (this.employeePay + this.travelCost) * 0.4 : 0;
+  }
+
+  get total(): number {
+    return (
+      this.employeePay +
+      this.travelCost +
+      this.insuranceCost +
+      this.opexCost +
+      this.profit +
+      this.initialCost
+    );
+  }
+}
 </script>
 
 <style lang="scss" scoped>
