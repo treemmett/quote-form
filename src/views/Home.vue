@@ -14,7 +14,7 @@
     </card>
 
     <card title="Cleaning Frequency">
-      <text-field label="Initial cleaning?" />
+      <checkbox label="Initial cleaning?" />
       <text-field label="How often is the cleaning?" />
       <dropdown label="How often is the cleaning?">
         <option>One Time</option>
@@ -33,12 +33,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Card from '@/components/Card.vue';
+import Checkbox from '@/components/Checkbox.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import TextField from '@/components/TextField.vue';
 
 @Component({
   components: {
     Card,
+    Checkbox,
     Dropdown,
     TextField
   }
