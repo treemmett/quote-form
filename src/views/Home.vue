@@ -16,6 +16,12 @@
     <card title="Cleaning Frequency">
       <text-field label="Initial cleaning?" />
       <text-field label="How often is the cleaning?" />
+      <dropdown label="How often is the cleaning?">
+        <option>One Time</option>
+        <option>Weekly</option>
+        <option>Biweekly</option>
+        <option>Monthly</option>
+      </dropdown>
     </card>
 
     <card title="Insurance Cost">
@@ -27,11 +33,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Card from '@/components/Card.vue';
+import Dropdown from '@/components/Dropdown.vue';
 import TextField from '@/components/TextField.vue';
 
 @Component({
   components: {
     Card,
+    Dropdown,
     TextField
   }
 })
