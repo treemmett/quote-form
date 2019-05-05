@@ -1,7 +1,7 @@
 <template>
   <label class="dropdown">
     <div class="label">{{ label }}</div>
-    <select class="select">
+    <select class="select" :value="value" @input="inputHandler">
       <slot />
     </select>
   </label>
@@ -13,6 +13,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class Dropdown extends Vue {
   @Prop() private label!: string;
+
+  @Prop() private value!: string;
+
+  inputHandler(e: Event) {
+    this.$emit('input', (e.target as HTMLInputElement).value);
+  }
 }
 </script>
 

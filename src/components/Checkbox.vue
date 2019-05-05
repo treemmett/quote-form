@@ -1,7 +1,7 @@
 <template>
   <label class="checkbox">
     <div class="label">{{ label }}</div>
-    <input type="checkbox" class="input" />
+    <input type="checkbox" class="input" :checked="value" @input="inputHandler" />
     <div class="display" />
   </label>
 </template>
@@ -12,6 +12,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class TextField extends Vue {
   @Prop() private label!: string;
+
+  @Prop() private value!: boolean;
+
+  inputHandler(e: Event) {
+    this.$emit('input', (e.target as HTMLInputElement).checked);
+  }
 }
 </script>
 

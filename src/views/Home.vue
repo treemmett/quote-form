@@ -15,8 +15,8 @@
       </card>
 
       <card title="Cleaning Frequency" class="frequency">
-        <checkbox label="Initial cleaning?" />
-        <dropdown label="How often is the cleaning?">
+        <checkbox v-model="initial" label="Initial cleaning?" />
+        <dropdown v-model="frequency" label="How often is the cleaning?">
           <option value="once">One Time</option>
           <option value="weekly">Weekly</option>
           <option value="biweekly">Biweekly</option>
@@ -30,19 +30,19 @@
     </div>
     <div class="report">
       <result property="Employee Time" :value="employeeHours" />
-      <result property="Employee Pay" :value="employeePay" />
+      <result property="Employee Pay" :value="`$${employeePay.toFixed(2)}`" />
       <br />
       <result property="Travel Time" :value="travelTime" />
-      <result property="Travel Pay" :value="travelCost" />
+      <result property="Travel Pay" :value="`$${travelCost.toFixed(2)}`" />
       <br />
-      <result property="Insurance" :value="insuranceCost" />
+      <result property="Insurance" :value="`$${insuranceCost.toFixed(2)}`" />
       <result property="OPEX" :value="`${opex}%`" />
-      <result property="OPEX Cost" :value="opexCost" />
+      <result property="OPEX Cost" :value="`$${opexCost.toFixed(2)}`" />
       <br />
-      <result property="Profit" :value="profit" />
-      <result property="Initial" :value="initialCost" />
+      <result property="Profit" :value="`$${profit.toFixed(2)}`" />
+      <result property="Initial" :value="`$${initialCost.toFixed(2)}`" />
       <br />
-      <result style="font-size: 20px" property="Total" :value="total" />
+      <result style="font-size: 20px" property="Total" :value="`$${total.toFixed(2)}`" />
     </div>
   </div>
 </template>
