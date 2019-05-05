@@ -1,6 +1,6 @@
 {
-  "name": "quote-form",
-  "short_name": "quote-form",
+  "name": "Superstar Cleaning Quote Generator",
+  "short_name": "Superstar",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
