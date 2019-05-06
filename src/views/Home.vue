@@ -27,6 +27,11 @@
       <card title="Insurance Cost" class="insurance">
         <text-field v-model="insurance" />
       </card>
+
+      <form class="save" @submit.prevent="save">
+        <input class="input" placeholder="Save Name" name="saveName" />
+        <button>Save</button>
+      </form>
     </div>
     <div class="report">
       <result property="Employee Time" :value="employeeHours" />
@@ -55,6 +60,20 @@ import Dropdown from '@/components/Dropdown.vue';
 import Result from '@/components/Result.vue';
 import TextField from '@/components/TextField.vue';
 
+interface Quote {
+  id: string;
+  name: string;
+  data: {
+    employees11: number;
+    employees12: number;
+    hours: number;
+    distance: number;
+    insurance: number;
+    initial: boolean;
+    frequency: 'once' | 'weekly' | 'biweekly' | 'monthly';
+  };
+}
+
 @Component({
   components: {
     Card,
@@ -77,7 +96,7 @@ export default class Home extends Vue {
 
   initial: boolean = false;
 
-  frequency: 'once' | 'weekly' | 'biweekly' | 'monthly' = 'biweekly';
+  frequency: 'once' | 'weekly' | 'biweekly' | 'monthly' = 'once';
 
   get employeePay(): number {
     return this.employees11 * this.hours * 11 + this.employees12 * this.hours * 12;
@@ -139,6 +158,46 @@ export default class Home extends Vue {
       this.initialCost
     );
   }
+
+  save(e: Event) {
+    const form = e.target as HTMLFormElement;
+    const saveName = (form.elements[0] as HTMLInputElement).value as string;
+
+    const id = btoa(Date.now().toString()).replace(/=/g, '');
+
+    const saveData: Quote = {
+      id,
+      name: saveName,
+      data: {
+        employees11: this.employees11,
+        employees12: this.employees12,
+        hours: this.hours,
+        distance: this.distance,
+        insurance: this.insurance,
+        initial: this.initial,
+        frequency: this.frequency
+      }
+    };
+
+    // check if we already have a saved quotes array
+    const savedQuotes: Array<Quote> = localStorage.getItem('savedQuotes')
+      ? JSON.parse(localStorage.getItem('savedQuotes') as string)
+      : [];
+
+    savedQuotes.push(saveData);
+
+    localStorage.setItem('savedQuotes', JSON.stringify(savedQuotes));
+
+    // reset site data
+    this.employees11 = 0;
+    this.employees12 = 0;
+    this.hours = 0;
+    this.distance = 0;
+    this.insurance = 0;
+    this.initial = false;
+    this.frequency = 'once';
+    (document.querySelector('input[name=saveName]') as HTMLInputElement).value = '';
+  }
 }
 </script>
 
@@ -154,7 +213,7 @@ export default class Home extends Vue {
   grid-area: form;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1min-content 1min-content 1min-content 1min-content;
-  grid-template-areas: 'employees hours' 'employees frequency' 'distance frequency' 'insurance .';
+  grid-template-areas: 'employees hours' 'employees frequency' 'distance frequency' 'insurance action';
   row-gap: 1em;
   column-gap: 1em;
 
@@ -181,5 +240,37 @@ export default class Home extends Vue {
 
 .report {
   padding: 0 2em;
+}
+
+.save {
+  grid-area: action;
+  display: flex;
+  align-items: flex-end;
+
+  input {
+    padding: 0.75em 0.5em;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+
+    &:active,
+    &:focus {
+      border-color: #7f7eff;
+      box-shadow: 0 0 2px #7f7eff;
+    }
+  }
+
+  button {
+    padding: 0.75em 1em;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    appearance: none;
+    margin-left: auto;
+    cursor: pointer;
+  }
 }
 </style>
