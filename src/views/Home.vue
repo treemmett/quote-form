@@ -1,6 +1,10 @@
 <template>
   <div class="view">
     <saved-list v-if="loadingListOpen" @close="loadingListOpen = false" />
+    <div class="nav">
+      <button class="button" type="button" @click="loadingListOpen = true">Load</button>
+      <button class="button" type="button">Save</button>
+    </div>
     <div class="form">
       <card title="How many employees do you need?" class="employees">
         <text-field v-model="employees11" label="$11.00" />
@@ -196,7 +200,15 @@ export default class Home extends Vue {
 .view {
   display: grid;
   grid-template-columns: 40em 1fr;
-  grid-template-areas: 'form report';
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 'nav nav' 'form report';
+}
+
+.nav {
+  grid-area: nav;
+  text-align: right;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5em 1em;
 }
 
 .form {
@@ -205,6 +217,7 @@ export default class Home extends Vue {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1min-content 1min-content 1min-content 1min-content;
   grid-template-areas: 'employees hours' 'employees frequency' 'distance frequency' 'insurance action';
+  padding: 1em;
   row-gap: 1em;
   column-gap: 1em;
 
@@ -230,7 +243,8 @@ export default class Home extends Vue {
 }
 
 .report {
-  padding: 0 2em;
+  padding: 1em;
+  padding-right: 2em;
 }
 
 .save {

@@ -27,9 +27,6 @@ export default class TextField extends Vue {
 </script>
 
 <style lang="scss" scoped>
-$blue: #2196f3;
-$red: #f44336;
-
 .modal {
   display: inline-block;
   width: 100%;
@@ -61,45 +58,6 @@ $red: #f44336;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.button {
-  padding: 8px 16px;
-  font-size: inherit;
-  border-radius: 5px;
-  background-color: #fff;
-  color: $blue;
-  border: 1px solid $blue;
-  appearance: none;
-  margin-left: 1em;
-  cursor: pointer;
-  outline: none;
-  text-transform: uppercase;
-  font-weight: 600;
-  transition: background-color 0.1s ease-out;
-
-  &:hover {
-    background-color: lighten($blue, 35%);
-  }
-
-  &:active,
-  &:focus {
-    background-color: lighten($blue, 30%);
-  }
-
-  &.red {
-    border-color: transparent;
-    color: $red;
-
-    &:hover {
-      background-color: lighten($red, 35%);
-    }
-
-    &:active,
-    &:focus {
-      background-color: lighten($red, 30%);
-    }
-  }
 }
 
 .wrapper {
