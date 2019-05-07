@@ -1,6 +1,6 @@
 <template>
   <div class="view">
-    <saved-list v-if="loadingListOpen" @close="loadingListOpen = false" />
+    <saved-list v-if="loadingListOpen" @close="loadingListOpen = false" @load="load" />
     <div class="nav">
       <button class="button" type="button" @click="loadingListOpen = true">Load</button>
       <button class="button" type="button">Save</button>
@@ -77,6 +77,8 @@ import TextField from '@/components/TextField.vue';
   }
 })
 export default class Home extends Vue {
+  [key: string]: any;
+
   loadingListOpen: boolean = true;
 
   employees11: number = 0;
@@ -192,6 +194,21 @@ export default class Home extends Vue {
     this.initial = false;
     this.frequency = 'once';
     (document.querySelector('input[name=saveName]') as HTMLInputElement).value = '';
+  }
+
+  load(id: string) {
+    // find data by id
+    const savedItems: Array<App.Quote> = JSON.parse(localStorage.getItem('savedQuotes') as string);
+
+    const loadedItem = savedItems.find(q => q.id === id);
+
+    if (!loadedItem) {
+      throw new Error(`Cannot find quote ID ${id}`);
+    }
+
+    Object.keys(loadedItem.data).forEach(key => (this[key] = loadedItem.data[key]));
+
+    this.loadingListOpen = false;
   }
 }
 </script>

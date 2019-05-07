@@ -4,7 +4,7 @@
       <div v-for="item in savedItems" :key="item.id" class="item">
         <div class="name" :title="item.name">{{ item.name }}</div>
         <button class="button red">Delete</button>
-        <button class="button outline">Load</button>
+        <button class="button outline" @click="$emit('load', item.id)">Load</button>
       </div>
     </div>
   </div>
