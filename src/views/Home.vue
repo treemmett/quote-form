@@ -1,5 +1,6 @@
 <template>
   <div class="view">
+    <saved-list v-if="loadingListOpen" @close="loadingListOpen = false" />
     <div class="form">
       <card title="How many employees do you need?" class="employees">
         <text-field v-model="employees11" label="$11.00" />
@@ -58,21 +59,8 @@ import Card from '@/components/Card.vue';
 import Checkbox from '@/components/Checkbox.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import Result from '@/components/Result.vue';
+import SavedList from '@/components/SavedList.vue';
 import TextField from '@/components/TextField.vue';
-
-interface Quote {
-  id: string;
-  name: string;
-  data: {
-    employees11: number;
-    employees12: number;
-    hours: number;
-    distance: number;
-    insurance: number;
-    initial: boolean;
-    frequency: 'once' | 'weekly' | 'biweekly' | 'monthly';
-  };
-}
 
 @Component({
   components: {
@@ -80,10 +68,13 @@ interface Quote {
     Checkbox,
     Dropdown,
     Result,
+    SavedList,
     TextField
   }
 })
 export default class Home extends Vue {
+  loadingListOpen: boolean = true;
+
   employees11: number = 0;
 
   employees12: number = 0;
@@ -165,7 +156,7 @@ export default class Home extends Vue {
 
     const id = btoa(Date.now().toString()).replace(/=/g, '');
 
-    const saveData: Quote = {
+    const saveData: App.Quote = {
       id,
       name: saveName,
       data: {
@@ -180,7 +171,7 @@ export default class Home extends Vue {
     };
 
     // check if we already have a saved quotes array
-    const savedQuotes: Array<Quote> = localStorage.getItem('savedQuotes')
+    const savedQuotes: Array<App.Quote> = localStorage.getItem('savedQuotes')
       ? JSON.parse(localStorage.getItem('savedQuotes') as string)
       : [];
 

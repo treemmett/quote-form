@@ -14,6 +14,7 @@ module.exports = {
   rules: {
     'class-methods-use-this': 'off',
     'comma-dangle': ['error', 'never'],
+    'import/prefer-default-export': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-param-reassign': 'off',
