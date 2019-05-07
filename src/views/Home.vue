@@ -44,22 +44,30 @@
       <card title="Insurance Cost" class="insurance">
         <text-field v-model="insurance" />
       </card>
+
+      <div class="summary">
+        <button class="button" type="button" @click="reportOpen = !reportOpen">
+          <result style="font-size: 20px" property="Total" :value="`$${total.toFixed(2)}`" />
+        </button>
+      </div>
     </div>
-    <div class="report">
-      <result property="Employee Time" :value="employeeHours" />
-      <result property="Employee Pay" :value="`$${employeePay.toFixed(2)}`" />
-      <br />
-      <result property="Travel Time" :value="travelTime" />
-      <result property="Travel Pay" :value="`$${travelCost.toFixed(2)}`" />
-      <br />
-      <result property="Insurance" :value="`$${insuranceCost.toFixed(2)}`" />
-      <result property="OPEX" :value="`${opex}%`" />
-      <result property="OPEX Cost" :value="`$${opexCost.toFixed(2)}`" />
-      <br />
-      <result property="Profit" :value="`$${profit.toFixed(2)}`" />
-      <result property="Initial" :value="`$${initialCost.toFixed(2)}`" />
-      <br />
-      <result style="font-size: 20px" property="Total" :value="`$${total.toFixed(2)}`" />
+    <div class="report-wrapper" :class="{ open: reportOpen }" @click.self="reportOpen = false">
+      <div class="report">
+        <result property="Employee Time" :value="employeeHours" />
+        <result property="Employee Pay" :value="`$${employeePay.toFixed(2)}`" />
+        <br />
+        <result property="Travel Time" :value="travelTime" />
+        <result property="Travel Pay" :value="`$${travelCost.toFixed(2)}`" />
+        <br />
+        <result property="Insurance" :value="`$${insuranceCost.toFixed(2)}`" />
+        <result property="OPEX" :value="`${opex}%`" />
+        <result property="OPEX Cost" :value="`$${opexCost.toFixed(2)}`" />
+        <br />
+        <result property="Profit" :value="`$${profit.toFixed(2)}`" />
+        <result property="Initial" :value="`$${initialCost.toFixed(2)}`" />
+        <br />
+        <result style="font-size: 20px" property="Total" :value="`$${total.toFixed(2)}`" />
+      </div>
     </div>
   </div>
 </template>
@@ -105,6 +113,8 @@ export default class Home extends Vue {
   initial: boolean = false;
 
   frequency: 'once' | 'weekly' | 'biweekly' | 'monthly' = 'once';
+
+  reportOpen: boolean = false;
 
   get employeePay(): number {
     return this.employees11 * this.hours * 11 + this.employees12 * this.hours * 12;
@@ -265,7 +275,7 @@ export default class Home extends Vue {
   grid-area: form;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1min-content 1min-content 1min-content 1min-content;
-  grid-template-areas: 'title title' 'description hours' 'description frequency' 'employees frequency' 'employees distance' 'insurance .';
+  grid-template-areas: 'title title' 'description hours' 'description frequency' 'employees frequency' 'employees distance' 'insurance summary';
   padding: 1em;
   row-gap: 1em;
   column-gap: 1em;
@@ -323,6 +333,10 @@ export default class Home extends Vue {
       min-height: 100px;
     }
   }
+
+  .summary {
+    display: none;
+  }
 }
 
 .report {
@@ -344,8 +358,48 @@ export default class Home extends Vue {
     overflow: auto;
   }
 
-  .report {
-    display: none;
+  .report-wrapper {
+    position: fixed;
+    background-color: rgba(#000, 0);
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4em;
+    padding-top: 5em;
+    pointer-events: none;
+
+    .report {
+      background-color: #fff;
+      box-shadow: 0 5px 20px 5px rgba(#000, 0.15);
+      border-radius: 6px;
+      max-width: 20em;
+      margin: 0 auto;
+      transform: translateY(3em);
+      opacity: 0;
+      transition: 0.15s ease-out;
+      transition-property: opacity transform;
+    }
+
+    &.open {
+      background-color: rgba(#000, 0.3);
+      pointer-events: auto;
+
+      .report {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  }
+
+  .summary {
+    display: block !important;
+
+    .button {
+      margin: 0;
+      display: block;
+      height: 4em;
+      width: 100%;
+    }
   }
 }
 </style>
@@ -353,8 +407,6 @@ export default class Home extends Vue {
 <style lang="scss" scoped>
 @media screen and (max-width: 650px) {
   .form {
-    // display: block;
-    // grid-template-rows: repeat(min-content);
     grid-template-columns: 1fr;
     grid-template-areas: 'title' 'description' 'employees' 'hours' 'frequency' 'distance' 'insurance';
   }
