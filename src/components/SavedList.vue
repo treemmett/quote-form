@@ -2,7 +2,7 @@
   <div class="wrapper" @click.self="$emit('close')">
     <div class="modal">
       <div v-for="item in savedItems" :key="item.id" class="item">
-        <div class="name" :title="item.name">{{ item.name }}</div>
+        <div class="name" :title="item.data.name">{{ item.data.name }}</div>
         <button class="button red">Delete</button>
         <button class="button outline" @click="$emit('load', item.id)">Load</button>
       </div>

@@ -3,9 +3,16 @@
     <saved-list v-if="loadingListOpen" @close="loadingListOpen = false" @load="load" />
     <div class="nav">
       <button class="button" type="button" @click="loadingListOpen = true">Load</button>
-      <button class="button" type="button">Save</button>
+      <button class="button" type="button" @click="save">Save</button>
     </div>
     <div class="form">
+      <input
+        ref="nameInput"
+        v-model="name"
+        class="title"
+        placeholder="Untitled Quote"
+        @input="$event.target.setCustomValidity('')"
+      />
       <card title="How many employees do you need?" class="employees">
         <text-field v-model="employees11" label="$11.00" />
         <text-field v-model="employees12" label="$12.00" />
@@ -32,11 +39,6 @@
       <card title="Insurance Cost" class="insurance">
         <text-field v-model="insurance" />
       </card>
-
-      <form class="save" @submit.prevent="save">
-        <input class="input" placeholder="Save Name" name="saveName" />
-        <button>Save</button>
-      </form>
     </div>
     <div class="report">
       <result property="Employee Time" :value="employeeHours" />
@@ -79,7 +81,9 @@ import TextField from '@/components/TextField.vue';
 export default class Home extends Vue {
   [key: string]: any;
 
-  loadingListOpen: boolean = true;
+  name: string = '';
+
+  loadingListOpen: boolean = false;
 
   employees11: number = 0;
 
@@ -156,16 +160,19 @@ export default class Home extends Vue {
     );
   }
 
-  save(e: Event) {
-    const form = e.target as HTMLFormElement;
-    const saveName = (form.elements[0] as HTMLInputElement).value as string;
+  save() {
+    // check if quote name is filled out
+    const input = this.$refs.nameInput as HTMLInputElement;
+    input.setCustomValidity(this.name ? '' : 'Please proivde a quote name.');
 
-    const id = btoa(Date.now().toString()).replace(/=/g, '');
+    if (!input.reportValidity()) {
+      return;
+    }
 
     const saveData: App.Quote = {
-      id,
-      name: saveName,
+      id: btoa(Date.now().toString()).replace(/=/g, ''),
       data: {
+        name: this.name,
         employees11: this.employees11,
         employees12: this.employees12,
         hours: this.hours,
@@ -186,6 +193,7 @@ export default class Home extends Vue {
     localStorage.setItem('savedQuotes', JSON.stringify(savedQuotes));
 
     // reset site data
+    this.name = '';
     this.employees11 = 0;
     this.employees12 = 0;
     this.hours = 0;
@@ -193,7 +201,6 @@ export default class Home extends Vue {
     this.insurance = 0;
     this.initial = false;
     this.frequency = 'once';
-    (document.querySelector('input[name=saveName]') as HTMLInputElement).value = '';
   }
 
   load(id: string) {
@@ -235,16 +242,26 @@ export default class Home extends Vue {
   grid-area: form;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1min-content 1min-content 1min-content 1min-content;
-  grid-template-areas: 'employees hours' 'employees frequency' 'distance frequency' 'insurance action';
+  grid-template-areas: 'title title' 'employees hours' 'employees frequency' 'distance frequency' 'insurance action';
   padding: 1em;
   row-gap: 1em;
   column-gap: 1em;
   overflow: auto;
 
-  &::after {
-    content: '';
-    display: block;
-    height: 0.5em;
+  & > *:last-child {
+    margin-bottom: 1em;
+  }
+
+  .title {
+    grid-area: title;
+    outline: none;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+
+    &::placeholder {
+      color: #727272;
+    }
   }
 
   .employees {
@@ -272,38 +289,6 @@ export default class Home extends Vue {
   padding: 1em;
   padding-right: 2em;
   overflow: auto;
-}
-
-.save {
-  grid-area: action;
-  display: flex;
-  align-items: flex-end;
-
-  input {
-    padding: 0.75em 0.5em;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    outline: none;
-
-    &:active,
-    &:focus {
-      border-color: #7f7eff;
-      box-shadow: 0 0 2px #7f7eff;
-    }
-  }
-
-  button {
-    padding: 0.75em 1em;
-    font-size: 16px;
-    border-radius: 5px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    appearance: none;
-    margin-left: auto;
-    cursor: pointer;
-  }
 }
 </style>
 

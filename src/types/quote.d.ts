@@ -2,9 +2,9 @@ declare namespace App {
   export interface Quote {
     [index: string]: any;
     id: string;
-    name: string;
     data: {
       [index: string]: any;
+      name: string;
       employees11: number;
       employees12: number;
       hours: number;
