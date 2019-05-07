@@ -5,6 +5,7 @@ declare namespace App {
     data: {
       [index: string]: any;
       name: string;
+      description: string;
       employees11: number;
       employees12: number;
       hours: number;

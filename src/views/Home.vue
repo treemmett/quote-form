@@ -36,6 +36,10 @@
         </dropdown>
       </card>
 
+      <card title="Description" class="description">
+        <textarea v-model="description" placeholder="Description" />
+      </card>
+
       <card title="Insurance Cost" class="insurance">
         <text-field v-model="insurance" />
       </card>
@@ -82,6 +86,8 @@ export default class Home extends Vue {
   [key: string]: any;
 
   name: string = '';
+
+  description: string = '';
 
   loadingListOpen: boolean = false;
 
@@ -173,6 +179,7 @@ export default class Home extends Vue {
       id: btoa(Date.now().toString()).replace(/=/g, ''),
       data: {
         name: this.name,
+        description: this.description,
         employees11: this.employees11,
         employees12: this.employees12,
         hours: this.hours,
@@ -194,6 +201,7 @@ export default class Home extends Vue {
 
     // reset site data
     this.name = '';
+    this.description = '';
     this.employees11 = 0;
     this.employees12 = 0;
     this.hours = 0;
@@ -242,7 +250,7 @@ export default class Home extends Vue {
   grid-area: form;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1min-content 1min-content 1min-content 1min-content;
-  grid-template-areas: 'title title' 'employees hours' 'employees frequency' 'distance frequency' 'insurance action';
+  grid-template-areas: 'title title' 'description hours' 'description frequency' 'employees frequency' 'employees distance' 'insurance .';
   padding: 1em;
   row-gap: 1em;
   column-gap: 1em;
@@ -283,6 +291,23 @@ export default class Home extends Vue {
   .insurance {
     grid-area: insurance;
   }
+
+  .description {
+    grid-area: description;
+
+    textarea {
+      resize: none;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      outline: none;
+      font-family: inherit;
+      font-size: 16px;
+      border: none;
+      min-height: 100px;
+    }
+  }
 }
 
 .report {
@@ -313,15 +338,10 @@ export default class Home extends Vue {
 <style lang="scss" scoped>
 @media screen and (max-width: 650px) {
   .form {
-    display: block;
-  }
-
-  .card {
-    display: block;
-
-    & + & {
-      margin-top: 1em;
-    }
+    // display: block;
+    // grid-template-rows: repeat(min-content);
+    grid-template-columns: 1fr;
+    grid-template-areas: 'title' 'description' 'employees' 'hours' 'frequency' 'distance' 'insurance';
   }
 }
 </style>

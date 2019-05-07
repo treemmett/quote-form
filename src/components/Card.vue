@@ -23,9 +23,16 @@ export default class HelloWorld extends Vue {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
+
+  &.description .form {
+    height: 90%;
+    padding: 0;
+  }
 }
 
 .form {
   padding: 0 2em;
+  position: relative;
+  height: 100%;
 }
 </style>
