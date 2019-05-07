@@ -219,6 +219,8 @@ export default class Home extends Vue {
   grid-template-columns: 40em 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas: 'nav nav' 'form report';
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 .nav {
@@ -237,6 +239,13 @@ export default class Home extends Vue {
   padding: 1em;
   row-gap: 1em;
   column-gap: 1em;
+  overflow: auto;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 0.5em;
+  }
 
   .employees {
     grid-area: employees;
@@ -262,6 +271,7 @@ export default class Home extends Vue {
 .report {
   padding: 1em;
   padding-right: 2em;
+  overflow: auto;
 }
 
 .save {
@@ -293,6 +303,40 @@ export default class Home extends Vue {
     appearance: none;
     margin-left: auto;
     cursor: pointer;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 880px) {
+  .view {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 'nav' 'form';
+  }
+
+  .form {
+    overflow: auto;
+  }
+
+  .report {
+    display: none;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 650px) {
+  .form {
+    display: block;
+  }
+
+  .card {
+    display: block;
+
+    & + & {
+      margin-top: 1em;
+    }
   }
 }
 </style>
