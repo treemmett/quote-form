@@ -2,6 +2,7 @@
   <div class="view">
     <saved-list v-if="loadingListOpen" @close="loadingListOpen = false" @load="load" />
     <div class="nav">
+      <div class="logo" />
       <button class="button" type="button" @click="loadingListOpen = true">Load</button>
       <button class="button" type="button" @click="save">Save</button>
     </div>
@@ -239,10 +240,24 @@ export default class Home extends Vue {
 }
 
 .nav {
+  display: flex;
+  position: relative;
   grid-area: nav;
   text-align: right;
   border-bottom: 1px solid #ccc;
   padding: 0.5em 1em;
+  height: 3em;
+  align-items: center;
+
+  .logo {
+    width: 100px;
+    height: 100%;
+    background: url('/logo.png');
+    background-size: contain;
+    background-position: 1em center;
+    background-repeat: no-repeat;
+    margin-right: auto;
+  }
 }
 
 .form {
