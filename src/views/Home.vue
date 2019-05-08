@@ -53,6 +53,8 @@
     </div>
     <div class="report-wrapper" :class="{ open: reportOpen }" @click.self="reportOpen = false">
       <div class="report">
+        <div class="title">{{ name }}</div>
+        <p class="report-description">{{ description }}</p>
         <result property="Employee Time" :value="employeeHours" />
         <result property="Employee Pay" :value="`$${employeePay.toFixed(2)}`" />
         <br />
@@ -281,7 +283,7 @@ export default class Home extends Vue {
   column-gap: 1em;
   overflow: auto;
 
-  & > *:last-child {
+  & > *:nth-last-child(2) {
     margin-bottom: 1em;
   }
 
@@ -343,6 +345,11 @@ export default class Home extends Vue {
   padding: 1em;
   padding-right: 2em;
   overflow: auto;
+
+  .title,
+  .report-description {
+    display: none;
+  }
 }
 </style>
 
@@ -356,6 +363,10 @@ export default class Home extends Vue {
 
   .form {
     overflow: auto;
+
+    & > *:last-child {
+      margin-bottom: 1em;
+    }
   }
 
   .report-wrapper {
@@ -409,6 +420,62 @@ export default class Home extends Vue {
   .form {
     grid-template-columns: 1fr;
     grid-template-areas: 'title' 'description' 'employees' 'hours' 'frequency' 'distance' 'insurance';
+
+    & > *:nth-last-child(2) {
+      margin-bottom: 0;
+    }
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+@media print {
+  @page {
+    size: auto;
+    margin: 0;
+  }
+
+  .logo {
+    position: fixed;
+    top: 3em;
+    left: 5em;
+    z-index: 5;
+    height: 70px !important;
+    width: 200px !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .report-wrapper {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    padding: 5em;
+    box-sizing: border-box;
+    background-color: #fff;
+  }
+
+  .report {
+    margin: 3em 0;
+
+    .title {
+      display: block;
+      position: fixed;
+      top: 3em;
+      height: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      line-height: 50px;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 2em;
+    }
+
+    .report-description {
+      display: block;
+      text-align: left;
+    }
   }
 }
 </style>
