@@ -33,12 +33,14 @@ export default class TextField extends Vue {
 }
 
 .input {
-  display: none;
+  position: fixed;
 
   &:active,
   &:focus {
-    border-color: #7f7eff;
-    box-shadow: 0 0 2px #7f7eff;
+    & + .display {
+      border-color: #7f7eff !important;
+      box-shadow: 0 0 2px #7f7eff;
+    }
   }
 
   &:checked + .display {

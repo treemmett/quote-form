@@ -14,6 +14,11 @@
         placeholder="Untitled Quote"
         @input="$event.target.setCustomValidity('')"
       />
+
+      <card title="Description" class="description">
+        <textarea v-model="description" placeholder="Description" />
+      </card>
+
       <card title="How many employees do you need?" class="employees">
         <text-field v-model="employees11" label="$11.00" />
         <text-field v-model="employees12" label="$12.00" />
@@ -21,10 +26,6 @@
 
       <card title="How many hours of cleaning?" class="hours">
         <text-field v-model="hours" />
-      </card>
-
-      <card title="How far is the job?" class="distance">
-        <text-field v-model="distance" label="Distance in hours" />
       </card>
 
       <card title="Cleaning Frequency" class="frequency">
@@ -37,8 +38,8 @@
         </dropdown>
       </card>
 
-      <card title="Description" class="description">
-        <textarea v-model="description" placeholder="Description" />
+      <card title="How far is the job?" class="distance">
+        <text-field v-model="distance" label="Distance in hours" />
       </card>
 
       <card title="Insurance Cost" class="insurance">
