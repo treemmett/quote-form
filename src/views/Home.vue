@@ -78,6 +78,10 @@
           property="Total"
           :value="`$${Math.ceil(total).toFixed(2)}`"
         />
+        <div class="buttons">
+          <button type="button" class="button" @click="print">Print</button>
+          <button type="button" class="button" @click="email">Email</button>
+        </div>
       </div>
     </div>
   </div>
@@ -186,6 +190,32 @@ export default class Home extends Vue {
       this.profit +
       this.initialCost
     );
+  }
+
+  print() {
+    window.print();
+  }
+
+  email() {
+    let body = `Employee Time: ${this.employeeHours}%0D%0AEmployee Pay: $${this.employeePay.toFixed(
+      2
+    )}%0D%0A%0D%0ATravel Time: ${this.travelTime}%0D%0ATravel Pay: $${this.travelCost.toFixed(
+      2
+    )}%0D%0A%0D%0AInsurance: $${this.insuranceCost.toFixed(2)}%0D%0AOPEX: ${
+      this.opex
+    }%%0D%0AOPEX Cost: $${this.opexCost.toFixed(2)}%0D%0A%0D%0AProfit: $${this.profit.toFixed(
+      2
+    )}%0D%0AInitial Cost: $${this.initialCost.toFixed(
+      2
+    )}%0D%0A%0D%0ASubtotal: $${this.total.toFixed(2)}%0D%0ATotal: $${Math.ceil(this.total).toFixed(
+      2
+    )}`;
+
+    [this.description, this.name].forEach(
+      d => d && (body = `${d.replace(/(?:\r\n|\r|\n)/g, '%0D%0A')}%0D%0A%0D%0A${body}`)
+    );
+
+    window.location.href = `mailto:?subject=Superstar Cleaning Quote&body=${body}`;
   }
 
   save() {
@@ -359,6 +389,16 @@ export default class Home extends Vue {
   .report-description {
     display: none;
   }
+
+  .buttons {
+    display: flex;
+    margin-top: 1em;
+    justify-content: flex-end;
+
+    .button:first-child {
+      margin-left: 0;
+    }
+  }
 }
 </style>
 
@@ -484,6 +524,10 @@ export default class Home extends Vue {
     .report-description {
       display: block;
       text-align: left;
+    }
+
+    .buttons {
+      display: none;
     }
   }
 }
