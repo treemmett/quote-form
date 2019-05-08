@@ -47,7 +47,11 @@
 
       <div class="summary">
         <button class="button" type="button" @click="reportOpen = !reportOpen">
-          <result style="font-size: 20px" property="Total" :value="`$${total.toFixed(2)}`" />
+          <result
+            style="font-size: 20px"
+            property="Total"
+            :value="`$${Math.ceil(total).toFixed(2)}`"
+          />
         </button>
       </div>
     </div>
@@ -68,7 +72,12 @@
         <result property="Profit" :value="`$${profit.toFixed(2)}`" />
         <result property="Initial" :value="`$${initialCost.toFixed(2)}`" />
         <br />
-        <result style="font-size: 20px" property="Total" :value="`$${total.toFixed(2)}`" />
+        <result property="Subtotal" :value="`$${total.toFixed(2)}`" />
+        <result
+          style="font-size: 20px"
+          property="Total"
+          :value="`$${Math.ceil(total).toFixed(2)}`"
+        />
       </div>
     </div>
   </div>
