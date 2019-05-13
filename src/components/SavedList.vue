@@ -3,7 +3,7 @@
     <div class="modal">
       <div v-for="item in savedItems" :key="item.id" class="item">
         <div class="name" :title="item.data.name">{{ item.data.name }}</div>
-        <button class="button red">Delete</button>
+        <button class="button red" @click="deleteItem(item.id)">Delete</button>
         <button class="button outline" @click="$emit('load', item.id)">Load</button>
       </div>
     </div>
@@ -22,6 +22,26 @@ export default class TextField extends Vue {
     if (!localStorage.getItem('savedQuotes')) return;
 
     this.savedItems = JSON.parse(localStorage.getItem('savedQuotes') as string);
+  }
+
+  deleteItem(id: string) {
+    const items: App.Quote[] = JSON.parse(localStorage.getItem('savedQuotes') as string);
+
+    const itemToDelete = items.find(i => i.id === id);
+
+    if (!itemToDelete) {
+      return;
+    }
+
+    // eslint-disable-next-line no-alert
+    if (!window.confirm(`Are you sure you want to delete ${itemToDelete.data.name}?`)) {
+      return;
+    }
+
+    const filtered = items.filter(i => i.id !== id);
+
+    this.savedItems = filtered;
+    localStorage.setItem('savedQuotes', JSON.stringify(filtered));
   }
 }
 </script>
