@@ -22,6 +22,7 @@
       <card title="How many employees do you need?" class="employees">
         <text-field v-model="employees11" label="$11.00" />
         <text-field v-model="employees12" label="$12.00" />
+        <text-field v-model="employees15" label="$15.00" />
       </card>
 
       <card title="How many hours of cleaning?" class="hours">
@@ -120,6 +121,8 @@ export default class Home extends Vue {
 
   employees12: number = 0;
 
+  employees15: number = 0;
+
   hours: number = 0;
 
   distance: number = 0;
@@ -133,11 +136,15 @@ export default class Home extends Vue {
   reportOpen: boolean = false;
 
   get employeePay(): number {
-    return this.employees11 * this.hours * 11 + this.employees12 * this.hours * 12;
+    return (
+      this.employees11 * this.hours * 11 +
+      this.employees12 * this.hours * 12 +
+      this.employees15 * this.hours * 15
+    );
   }
 
   get employeeHours(): string {
-    const v = (this.employees11 + this.employees12) * this.hours;
+    const v = (this.employees11 + this.employees12 + this.employees15) * this.hours;
     return v === 1 ? `${v} Hour` : `${v} Hours`;
   }
 
@@ -235,6 +242,7 @@ export default class Home extends Vue {
         description: this.description,
         employees11: this.employees11,
         employees12: this.employees12,
+        employees15: this.employees15,
         hours: this.hours,
         distance: this.distance,
         insurance: this.insurance,
@@ -257,6 +265,7 @@ export default class Home extends Vue {
     this.description = '';
     this.employees11 = 0;
     this.employees12 = 0;
+    this.employees15 = 0;
     this.hours = 0;
     this.distance = 0;
     this.insurance = 0;
