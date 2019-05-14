@@ -34,6 +34,9 @@ export default class TextField extends Vue {
 
 .input {
   position: fixed;
+  opacity: 0;
+  left: -9999vw;
+  top: -9999vh;
 
   &:active,
   &:focus {

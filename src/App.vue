@@ -11,7 +11,6 @@ $red: #f44336;
 body {
   margin: 0;
   overflow: hidden;
-  height: 100vh;
 }
 
 * {

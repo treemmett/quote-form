@@ -419,10 +419,12 @@ export default class Home extends Vue {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas: 'nav' 'form';
+    height: calc(var(--vh, 1vh) * 100);
   }
 
   .form {
     overflow: auto;
+    --webkit-font-smoothing: smooth;
 
     & > *:last-child {
       margin-bottom: 1em;
@@ -477,17 +479,6 @@ export default class Home extends Vue {
 
 <style lang="scss" scoped>
 @media screen and (max-width: 650px) {
-  .nav {
-    position: fixed;
-    background-color: #fff;
-    width: calc(100vw - 2em);
-    z-index: 1;
-
-    & + * {
-      margin-top: 4em;
-    }
-  }
-
   .form {
     grid-template-columns: 1fr;
     grid-template-areas: 'title' 'description' 'employees' 'hours' 'frequency' 'distance' 'insurance';
