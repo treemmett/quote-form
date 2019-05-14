@@ -1,14 +1,21 @@
 <template>
   <label class="text">
     <div class="label">{{ label }}</div>
-    <input min="0" type="number" class="input" :value="value" @input="inputHandler" />
+    <input
+      min="0"
+      type="number"
+      class="input"
+      :value="value"
+      v-bind="$attrs"
+      @input="inputHandler"
+    />
   </label>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
+@Component({ inheritAttrs: false })
 export default class TextField extends Vue {
   @Prop() private label!: string;
 

@@ -40,7 +40,7 @@
       </card>
 
       <card title="How far is the job?" class="distance">
-        <text-field v-model="distance" label="Distance in hours" />
+        <text-field v-model="distance" label="Distance in hours" step="0.25" />
       </card>
 
       <card title="Insurance Cost" class="insurance">
@@ -153,7 +153,7 @@ export default class Home extends Vue {
   }
 
   get travelCost(): number {
-    return this.distance * 10;
+    return this.distance > 0.5 ? 20 : 10;
   }
 
   get insuranceCost(): number {
