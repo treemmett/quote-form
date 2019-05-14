@@ -76,6 +76,7 @@
         <br />
         <result property="Subtotal" :value="`$${total.toFixed(2)}`" />
         <result
+          class="total"
           style="font-size: 20px"
           property="Total"
           :value="`$${Math.ceil(total).toFixed(2)}`"
@@ -476,6 +477,17 @@ export default class Home extends Vue {
 
 <style lang="scss" scoped>
 @media screen and (max-width: 650px) {
+  .nav {
+    position: fixed;
+    background-color: #fff;
+    width: calc(100vw - 2em);
+    z-index: 1;
+
+    & + * {
+      margin-top: 4em;
+    }
+  }
+
   .form {
     grid-template-columns: 1fr;
     grid-template-areas: 'title' 'description' 'employees' 'hours' 'frequency' 'distance' 'insurance';
@@ -534,6 +546,10 @@ export default class Home extends Vue {
     .report-description {
       display: block;
       text-align: left;
+    }
+
+    .result:not(.total) {
+      display: none;
     }
 
     .buttons {
