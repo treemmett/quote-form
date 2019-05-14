@@ -187,7 +187,7 @@ export default class Home extends Vue {
   }
 
   get initialCost(): number {
-    return this.initial ? (this.employeePay + this.travelCost) * 0.4 : 0;
+    return this.initial ? (this.employeePay + this.travelCost) * 0.15 : 0;
   }
 
   get total(): number {
